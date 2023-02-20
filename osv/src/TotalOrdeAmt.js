@@ -31,14 +31,16 @@ const TotalOrdeAmt = () => {
       currency: Yup.string().required("Mandatory"),
       amount: Yup.number().required("Mandatory"),
       guaranteevalueinpercent: Yup.number().min(2).max(5).required("Mandatory"),
-      customermobilenumber: Yup.number().max(10,"Enter A Valid contact Number").min(10,"Enter A Valid contact Number").required("Mandatory"),
+      customermobilenumber: Yup.number()
+        .max(10, "Enter A Valid contact Number")
+        .min(10, "Enter A Valid contact Number")
+        .required("Mandatory"),
       beneficiarymobilenumber: Yup.string().required("Mandatory"),
       applicablerules: Yup.string().required("Mandatory"),
       chargesandfees: Yup.number().required("Mandatory"),
       detailsofguarantee: Yup.string().required("Mandatory"),
       termsandconditions: Yup.string().required("Mandatory"),
-     letterofguaranteestartdate: Yup.string().required("Mandatory"),
-      
+      letterofguaranteestartdate: Yup.string().required("Mandatory"),
     }),
   });
 
@@ -47,10 +49,8 @@ const TotalOrdeAmt = () => {
   };
   useEffect(() => {
     const show = () => {
-      
       const content = cc.nextElementSibling;
       if (content.style.display === "block") {
-        
         content.style.display = "none";
       } else {
         content.style.display = "block";
@@ -203,12 +203,12 @@ const TotalOrdeAmt = () => {
             value={formik.values.detailsofguarantee}
             onChange={formik.handleChange}
             placeholder="Details of Guarantee"
-          >
-          </textarea>
+          ></textarea>
 
-          {formik.touched.detailsofguarantee && formik.errors.detailsofguarantee && (
-            <p style={{ color: "red" }}>{formik.errors.detailsofguarantee}</p>
-          )}
+          {formik.touched.detailsofguarantee &&
+            formik.errors.detailsofguarantee && (
+              <p style={{ color: "red" }}>{formik.errors.detailsofguarantee}</p>
+            )}
         </div>
 
         <div>
@@ -219,15 +219,13 @@ const TotalOrdeAmt = () => {
             value={formik.values.termsandconditions}
             onChange={formik.handleChange}
             placeholder="Terms and Conditions"
-          >
-        </textarea>
-          {formik.touched.termsandconditions && formik.errors.termsandconditions && (
-            <p style={{ color: "red" }}>{formik.errors.termsandconditions}</p>
-          )}
-
+          ></textarea>
+          {formik.touched.termsandconditions &&
+            formik.errors.termsandconditions && (
+              <p style={{ color: "red" }}>{formik.errors.termsandconditions}</p>
+            )}
         </div>
         <div>
-
           <label htmlFor="letterofguaranteestartdate"></label>
           <input
             type="date"
@@ -236,11 +234,13 @@ const TotalOrdeAmt = () => {
             onChange={formik.handleChange}
             placeholder="Letter of Guarantee Start Date"
           />
-          
 
-          {formik.touched.letterofguaranteestartdate && formik.errors.letterofguaranteestartdate && (
-            <p style={{ color: "red" }}>{formik.errors.letterofguaranteestartdate}</p>
-          )}
+          {formik.touched.letterofguaranteestartdate &&
+            formik.errors.letterofguaranteestartdate && (
+              <p style={{ color: "red" }}>
+                {formik.errors.letterofguaranteestartdate}
+              </p>
+            )}
         </div>
 
         <div>
