@@ -1,7 +1,10 @@
-import React,{useState} from "react";
-import Table from "./Table";
+import React, { useState, useEffect } from "react";
+import Table from "./Table.js";
+
+
 
 const Create = () => {
+  console.log("A");
   const person = {
     fname: "",
     lname: "",
@@ -10,45 +13,67 @@ const Create = () => {
   };
   const [info, setInfo] = useState({ ...person });
   const [body, setBody] = useState([]);
-  const [id, setId] = useState(null);
-  const [editing, setEditing]=useState(false)
 
-  const input = (e) => {
+
+  const create = (e) => {
+    console.log("B");
     const { name, value } = e.target;
     setInfo({ ...info, [name]: value });
+    console.log("B1");
   };
-  const submit = (e) => {
+
+  const submit = async (e) => {
+    console.log("C");
     e.preventDefault();
-
-    if (id===null) {
-      const data = { ...info, id: new Date().getTime().toString() };
+  
+    if (body.length === 0) {
+      console.log("D");
+      const data = { ...info };
       setBody([...body, data]);
-      setInfo({ ...person });
-    } else {
-      
-      body.map((e)=>{if(e.id===id){e.fname=info.fname;e.lname=info.lname;e.number=info.number;e.email=info.email}})
-      setInfo({ ...info });
-      setEditing(false)
-    }
-    getDummyList()
-    setInfo({...person})
 
+      setInfo({ ...person });
+      
+
+    } else {
+      console.log("E");
+      
+      const data = { ...info };
+      setInfo({ ...info });
+      setBody([...body, data]);
+
+
+    }
+    getDummyList();
+    setInfo({ ...person });
+    console.log("F");
   };
 
   const getDummyList = () => {
+    console.log("G");
+
     setInfo({ ...info });
   };
 
+
+
+  useEffect(() => {
+    console.log("H");
+    getDummyList();
+  }, []);
+
   const Edit = (id) => {
+    console.log("I");
     alert("Do want to Update the Data");
-    setId(id)
-    setInfo(body.find((e) => e.id === id));
+
+    setInfo(body.find((e,index) => index === id));
   };
 
   const Delete = (id) => {
     console.log("J");
     alert("Do You Want to Delete the Data");
-    setBody(body.filter((e) => e.id!== id));
+    setBody(body.filter((e,index) => index !== id));
+
+
   };
 
   return (
@@ -61,7 +86,7 @@ const Create = () => {
             type="text"
             name="fname"
             id="fname"
-            onChange={input}
+            onChange={create}
             value={info.fname}
             placeholder="FirstName"
             max="30"
@@ -74,7 +99,7 @@ const Create = () => {
             type="text"
             name="lname"
             id="lname"
-            onChange={input}
+            onChange={create}
             value={info.lname}
             placeholder="LastName"
             required
@@ -86,7 +111,7 @@ const Create = () => {
             type="text"
             name="number"
             id="number"
-            onChange={input}
+            onChange={create}
             value={info.number}
             placeholder="Contact Number"
             max="10"
@@ -100,13 +125,13 @@ const Create = () => {
             type="email"
             name="email"
             id="email"
-            onChange={input}
+            onChange={create}
             value={info.email}
             placeholder="Email"
             required
           />
         </div>
-        <button type="submit">{editing?"Update":"Add"}</button>
+        <button type="submit">Submit</button>
       </form>
 
       <table border="2">
@@ -144,4 +169,28 @@ const Create = () => {
 };
 export default Create;
 
+******************************************************
+import React from "react";
 
+const Table=(props)=>{
+    return (
+        <>
+          <tr>
+            <td>{props.id + 1}</td>
+            <td>
+              {props.text1}{" "+props.text2}
+            </td>
+            <td>{props.text3}</td>
+            <td>{props.text4}</td>
+            <td>
+              <button onClick={()=>props.onSelect1(props.id)}>Edit</button>
+            </td>
+            <td>
+              <button onClick={()=>props.onSelect2(props.id) }>Delete</button>
+            </td>
+          </tr>
+        </>
+      );
+}
+
+export default Table
