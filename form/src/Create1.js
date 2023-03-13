@@ -15,8 +15,8 @@ const Create = () => {
   };
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
   const validationSchema=Yup.object().shape({
-    fname:Yup.string().min(2,'First Name must be at least 2 characters').max(30,"Too Long").required("Please Enter Your First Name"),
-    lname:Yup.string().min(2,'Last Name must be at least 2 characters').max(30,"Too Long").required("Please Enter Your Last Name"),
+    fname:Yup.string().min(2,'First Name must be at least 2 characters').max(30).required("Please Enter Your First Name"),
+    lname:Yup.string().min(2,'Last Name must be at least 2 characters').max(30).required("Please Enter Your Last Name"),
     number:Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     email:Yup.string().email("Enter a Valid Email Id").required("Email is Required")
   })

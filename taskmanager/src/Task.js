@@ -79,35 +79,36 @@ const Task = () => {
           <button type="submit">{editing ? "Update" : "Add"}</button>
         </form>
       </div>
+      <div>
+        <table border="2" border-collapse="bordercollapse">
+          <thead>
+            <tr>
+              {day.map((e, index) => (
+                <th>{e}</th>
+              ))}
+            </tr>
+          </thead>
 
-      <table border="2" border-collapse="bordercollapse">
-        <thead>
-          <tr>
-            {day.map((e, index) => (
-              <th>{e}</th>
-            ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {body.map((value, index) => {
-            return day.map(
-              (data) =>
-                value[
-                  (
-                    <Table
-                      text1={data.task}
-                      key={index}
-                      id={data.id}
-                      onSelect1={Edit}
-                      onSelect2={Delete}
-                    />
-                  )
-                ]
-            );
-          })}
-        </tbody>
-      </table>
+          <tbody>
+            {body.map((value, index) => {
+              return day.map(
+                (data) =>
+                  value[
+                    (
+                      <Table
+                        text1={data.task}
+                        key={index}
+                        id={data.id}
+                        onSelect1={Edit}
+                        onSelect2={Delete}
+                      />
+                    )
+                  ]
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };

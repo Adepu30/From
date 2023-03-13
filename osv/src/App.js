@@ -1,27 +1,28 @@
-
-import './App.css';
-import LGDetails from './LGDetails.js'
-import AppDelStatus from './AppDelStatus.js'
-import  BeneLiabDet from './BeneLiabDet.js'
-import TotalOrdeAmt from './TotalOrdeAmt'
+import "./App.css";
+import LGDetails1 from "./LGDetails1.js";
+import AppDelStatus1 from "./AppDelStatus1.js";
+import BeneLiabDet1 from "./BeneLiabDet1.js";
+import TotalOrdeAmt1 from "./TotalOrdeAmt1";
+// import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 function App() {
   return (
-    <div className="App">
-      <div>
+    <>
+          <div>
+            <LGDetails1 />
+          </div>
 
-     <LGDetails/>
-      </div>
-      <div>
+          <div>
+            <AppDelStatus1 />
+          </div>
 
-     <AppDelStatus/>
-      </div>
-      <div>
-      <BeneLiabDet/>
-      </div>
-      <div>
-      <TotalOrdeAmt/>
-      </div>
-    </div>
+          <div>
+           <BeneLiabDet1 />
+          </div>
+
+          <div>
+            <TotalOrdeAmt1 />
+          </div>
+          </>
   );
 }
 
