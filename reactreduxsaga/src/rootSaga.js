@@ -7,7 +7,7 @@ import {Saga} from './Saga'
 
 export default function* rootSaga(){
     
-    yield all([Saga()])
+    yield all([fork(Saga)])
 }
 
 // export default rootSaga

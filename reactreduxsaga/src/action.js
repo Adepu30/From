@@ -10,7 +10,7 @@ import {
 } from "./Constants";
 
 const Get = () => {
-  console.log("I");
+  
   return {
     type: GET,
   };
@@ -23,48 +23,51 @@ const GetSuccess = () => {
 };
 
 const Add = (values) => {
-  console.log("F");
+  
   return {
     type: ADD,
     payload: values,
   };
 };
 
-const AddSuccess = () => {
-  console.log("F");
+const AddSuccess = (values) => {
+  
   return {
     type: ADD_SUCCESS,
+    payload: values,
   };
 };
 
 const Update = (values) => {
-  console.log("G");
+  
   return {
     type: UPDATE,
     payload: values,
   };
 };
 
-const UpdateSuccess = () => {
-  console.log("G");
+const UpdateSuccess = (values) => {
+  
   return {
     type: UPDATE_SUCCESS,
+    payload: values,
     
   };
 };
 
 const Remove = (values) => {
-  console.log("H");
+  
   return {
     type: REMOVE,
     payload: values,
   };
 };
 
-const RemoveSuccess = () => {
-  console.log("H");
+const RemoveSuccess = (values) => {
+  
   return {
     type: REMOVE_SUCCESS,
+    payload: values,
   };
 };
 

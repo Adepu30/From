@@ -1,6 +1,19 @@
 import { put, takeEvery, call, takeLatest } from "redux-saga/effects";
 // import {Add,Update,Remove} from './action'
-import { ADD,ADD_SUCCESS, UPDATE,UPDATE_SUCCESS, REMOVE,REMOVE_SUCCESS, GET,GET_SUCCESS} from "./Constants";
+import {
+  ADD,
+  ADD_SUCCESS,
+  ADD_FAILURE,
+  UPDATE,
+  UPDATE_SUCCESS,
+  UPDATE_FAILURE,
+  REMOVE,
+  REMOVE_SUCCESS,
+  REMOVE_FAILURE,
+  GET,
+  GET_SUCCESS,
+  GET_FAILURE,
+} from "./Constants";
 import axios from "axios";
 
 //put the value in action and will dispatch the value to action
@@ -8,73 +21,90 @@ import axios from "axios";
 //takevery,takeLatest
 
 export function* get() {
-  console.log("SAGA");
-  
-  let data = yield call(() =>
-    
-    axios
-      .get(`https://63db5e89b8e69785e4808146.mockapi.io/CRUDSAGA/`)
-      .then((response) => {
-        return response.data;
-      })
-      .catch((err) => console.log("******err - ", err))
-  );
-  yield put({type:GET_SUCCESS,data:data})
-}
-   
-
-
-export function* getAdd(action) {
-  console.log("J");
-  console.log(action.payload);
   try {
-    let data = yield call(() =>
+    const response = yield call(() =>
+      axios.get(`https://63db5e89b8e69785e4808146.mockapi.io/CRUDSAGA/`)
+    );
+console.log(response)
+    if (response.status === 200) {
+      yield put({ type: GET_SUCCESS, data: response.data });
+      
+    } else {
+      yield call(window.alert,`Recieved a ${response.status} status code`);
+    }
+  } catch (error) {
+    yield put({ type: GET_FAILURE, error });
+    // yield call(window.alert,`Error in loading the data please try again`);
+  }
+}
+
+function* getAdd(action) {
+  try {
+    const response = yield call(() =>
       axios.post(
         `https://63db5e89b8e69785e4808146.mockapi.io/CRUDSAGA/`,
         action.payload
       )
     );
-    console.log("####data - ", data);
-    if (data) {
-      yield put({ type: ADD_SUCCESS, data: data });
+
+    if (response.status === 201) {
+      // yield put({ type: ADD_SUCCESS, data: response.data});
+      yield put({ type: ADD_SUCCESS, data: response});
+      // yield call(window.alert,`Data Added Succesfully`);
+    } else {
+      yield call(window.alert,`Recieved a ${response.status} status code`);
     }
-  } catch (err) {
-    console.log("########err - ", err);
+  } catch (error) {
+    yield put({ type: ADD_FAILURE, error });
+    // yield call(window.alert,`Error in adding data please try again`);
   }
 }
 
-export function* getUpdate(action) {
-  console.log("K");
-
-    let data = yield call(()=>
+function* getUpdate(action) {
+  try {
+    const response = yield call(() =>
       axios.put(
         `https://63db5e89b8e69785e4808146.mockapi.io/CRUDSAGA/${action.payload.id}`,
         action.payload
       )
     );
-    yield put({ type: UPDATE_SUCCESS, data:data });
-
+    if (response.status === 200) {
+      // yield put({ type: UPDATE_SUCCESS, data: response.data });
+      yield put({ type: UPDATE_SUCCESS, data: response });
+      // yield call(window.alert,`Data Updated Succesfully`);
+    } else {
+      console.log(`Recieved a ${response.status} status code`);
+    }
+  } catch (error) {
+    yield put({ type: UPDATE_FAILURE, error });
+    // yield call(window.alert,`Error in updating data please try again`);
+  }
 }
 
-export function* getRemove(action) {
-  console.log("L");
+function* getRemove(action) {
+  try {
+    const response = yield call(() =>
+      axios.delete(
+        `https://63db5e89b8e69785e4808146.mockapi.io/CRUDSAGA/${action.payload.id}`
+      )
+    );
+    if (response.status === 200) {
+      // yield put({ type: REMOVE_SUCCESS, data: response.data });
+      yield put({ type: REMOVE_SUCCESS, data: response });
+    //   yield call(window.alert,`Data Deleted Succesfully`);
+    } else {
+      console.log(`Recieved a ${response.status} status code`);
 
-  let data = yield call(()=>
-    axios.delete(
-      `https://63db5e89b8e69785e4808146.mockapi.io/CRUDSAGA/${action.payload.id}`
-    )
-  );
-  yield put({ type: REMOVE_SUCCESS, data:data });
+    } 
+  } catch (error) {
+    yield put({ type: REMOVE_FAILURE, error });
+    // yield call(window.alert,`Error in deleting data please try again`);
+  }
 }
 
 export function* Saga() {
-  console.log("N");
   yield takeEvery(GET, get);
-  console.log("N1");
-  yield takeLatest(ADD, getAdd);
-  console.log("N2");
+  yield takeEvery(ADD, getAdd);
   yield takeLatest(UPDATE, getUpdate);
-  console.log("N3");
   yield takeLatest(REMOVE, getRemove);
-  console.log("N4");
 }

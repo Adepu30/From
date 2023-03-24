@@ -16,6 +16,7 @@ const Store=createStore(
     applyMiddleware(sagaMiddleware),window._REDUX_DEVTOOLS_EXTENSION_&&window._REDUX_DEVTOOLS_EXTENSION_()
     // applyMiddleware(sagaMiddleware)
   )
+  
 sagaMiddleware.run(rootSaga)
 
 export default Store

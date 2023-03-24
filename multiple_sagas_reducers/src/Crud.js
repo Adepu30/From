@@ -1,124 +1,62 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Add, Update, Remove, Get } from "./action";
+import { connect } from "react-redux";
+import { Add, Update, Remove, Get } from "./redux/actions/index";
 
-// import axios from 'axios'
 import * as Yup from "yup";
 
 const Crud = () => {
   const initialValues = {
-    // userId: "",
     id: "",
     name: "",
-    email: "",
+    email: ""
   };
-  // console.log("A1");
+
   const [editing, setEditing] = useState(false);
   const [values, setValues] = useState({ ...initialValues });
+
   const dispatch = useDispatch();
   const array = useSelector((state) => {
-    return state.reducer;
+    console.log(state.getSucess);
+    return state.getSuccess;
   });
-  const status = useSelector((state) => {
-    // console.log(state.status)
-    return state.reducer1.type;
-  });
-  console.log(status);
-  const [message, setMessage] = useState("");
-  // const [data, setData] = useState([...array]);
-  // const [load, setLoad] = useState([...array.data]);
   console.log(array);
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Mandatory"),
-    email: Yup.string().email().required("Enter A valid Mail Id"),
+    email: Yup.string().email().required("Enter A valid Mail Id")
   });
 
   useEffect(() => {
+    console.log("E1");
     dispatch(Get());
-    // setData([...array])
   }, []);
 
-  useEffect(() => {
-    switch (status) {
-      case "GET_SUCCESS":
-        setMessage("Data fetched successfully!");
-        setTimeout(()=>setMessage(""),2000)
-        break;
-      case "GET_FAILURE":
-        setMessage("Failed to fetch data successfully!");
-        setTimeout(()=>setMessage(""),2000)
-        break;
-      case "ADD_SUCCESS":
-        setMessage("User added successfully!");
-        setTimeout(()=>setMessage(""),2000)
-        break;
-      case "ADD_FAILURE":
-        setMessage("Failed to add user!");
-        setTimeout(()=>setMessage(""),2000)
-        break;
-      case "REMOVE_SUCCESS":
-        setMessage("User removed successfully!");
-        setTimeout(()=>setMessage(""),2000)
-        break;
-      case "REMOVE_FAILURE":
-        setMessage("Failed to removed successfully!");
-        setTimeout(()=>setMessage(""),2000)
-        break;
-      case "UPDATE_SUCCESS":
-        setMessage("User updated successfully!");
-        setTimeout(()=>setMessage(""),2000)
-        break;
-      case "UPDATE_FAILURE":
-        setMessage("Failed to update successfully!");
-        setTimeout(()=>setMessage(""),2000)
-        break;
-      default:
-        setMessage("");
-    }
-  }, [status]);
-
   const submit = (values, { resetForm }) => {
-    // console.log("B");
     if (values.id) {
-      // console.log("B1");
       const data = { ...values };
       dispatch(Update(data));
 
       setEditing(false);
     } else {
-      // console.log("C");
       const data = { ...values };
-      //, userId: new Date().getTime().toString()
-      // console.log(data);
+      console.log(data);
       dispatch(Add(data));
     }
-    // console.log("C1");
+
     resetForm();
     setValues({ ...initialValues });
   };
 
   const Delete = (values) => {
-    // console.log("D");
     dispatch(Remove(values));
   };
 
   const Edit = (e) => {
-    // console.log("E");
     setEditing(true);
     setValues(e);
   };
-
-  // const visibility = () => {
-  //   setTimeout(() => {
-  //     message.fadeOut("slow");
-  //   }, 100);
-  // };
-  // const get =()=>{
-  //   dispatch(Get())
-  // }
-  // console.log("array:", array);
 
   return (
     <>
@@ -130,8 +68,6 @@ const Crud = () => {
       >
         {() => (
           <Form>
-
-            {message}
             <div>
               <label htmlFor="name">Name</label>
               <Field
@@ -173,11 +109,10 @@ const Crud = () => {
             <th>Id</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Delete/Edit</th>
-            {/* <th>Edit</th> */}
+            <th>Delete</th>
+            <th>Edit</th>
           </tr>
         </thead>
-
         <tbody key={new Date().getTime().toString()}>
           {array.map((e, index) => (
             <tr key={index}>
@@ -188,15 +123,12 @@ const Crud = () => {
                 <button key={`delete-${index}`} onClick={() => Delete(e)}>
                   Delete
                 </button>
+              </td>
+              <td>
                 <button key={`edit-${index}`} onClick={() => Edit(e)}>
                   Edit
                 </button>
               </td>
-              {/* <td>
-                <button key={`edit-${index}`} onClick={() => Edit(e)}>
-                  Edit
-                </button>
-              </td> */}
             </tr>
           ))}
         </tbody>
@@ -205,4 +137,32 @@ const Crud = () => {
   );
 };
 
+// const mapStateToProps = (state) => {
+//   console.log(state);
+//   return {
+//     posts: state.Get.posts,
+//     addedPost: state.Add.post,
+//     deletedPost: state.Remove.post,
+//     updatedPost: state.update.post
+//   };
+// };
+
+// const mapDispatchToProps = (dispatch) => ({
+//   actions: {
+//     Get: () => {
+//       dispatch(Get());
+//     },
+//     Add: (payload) => {
+//       dispatch(Add(payload));
+//     },
+//     Remove: (payload) => {
+//       dispatch(Remove(payload));
+//     },
+//     Update: (payload) => {
+//       dispatch(Update(payload));
+//     }
+//   }
+// });
+
 export default Crud;
+// export default connect(mapStateToProps, mapDispatchToProps)(Crud);
